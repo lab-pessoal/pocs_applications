@@ -16,3 +16,20 @@ jobs:
           aws-region: us-east-1
 
       - run: aws sts get-caller-identity
+
+      - name: Terraform Apply EC2
+        env:
+          TF_VAR_app_name: ${{ github.event.repository.name }}
+          TF_VAR_env: dev
+        run: |
+          terraform -chdir=infra-ec2 init
+          terraform -chdir=infra-ec2 apply -auto-approve
+
+      - name: Terraform Destroy EC2
+        if: always()
+        env:
+          TF_VAR_app_name: ${{ github.event.repository.name }}
+          TF_VAR_env: dev
+        run: |
+          terraform -chdir=infra-ec2 destroy -auto-approve
+
