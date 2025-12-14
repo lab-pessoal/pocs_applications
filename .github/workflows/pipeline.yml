@@ -1,40 +1,7 @@
-name: aws-oidc-test
+name: teddy-openfinance
 on:
   workflow_dispatch:
-
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.ARN_DEPLOY_ROLE }}
-          aws-region: us-east-1
-
-      - run: aws sts get-caller-identity
-
-      - uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.6.6
-
-      - name: Terraform Apply EC2
-        env:
-          TF_VAR_app_name: ${{ github.event.repository.name }}
-          TF_VAR_env: dev
-        run: |
-          terraform -chdir=infra-ec2 init
-          terraform -chdir=infra-ec2 apply -auto-approve
-
-      - name: Terraform Destroy EC2
-        if: always()
-        env:
-          TF_VAR_app_name: ${{ github.event.repository.name }}
-          TF_VAR_env: dev
-        run: |
-          terraform -chdir=infra-ec2 destroy -auto-approve
+  call-workflow:
+    uses: lab-pessoal/templates-pipeline/.github/workflows/pipeline-docker.yml@main
+    secrets: inherit
