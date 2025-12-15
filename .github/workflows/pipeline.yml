@@ -1,13 +1,24 @@
 name: teddy-openfinance
 on:
   workflow_dispatch:
+    inputs:
+      infra:
+        description: 'Selecione a ação'
+        required: true
+        type: choice
+        default: 'Nao'
+        options:
+          - 'Sim'
+          - 'Nao'
 
 permissions:
   id-token: write
   contents: read
 
-  
+
 jobs:
   call-workflow:
     uses: lab-pessoal/templates-pipeline/.github/workflows/pipeline-docker.yml@main
+    with:
+      infra: ${{ github.event.inputs.infra }}
     secrets: inherit
