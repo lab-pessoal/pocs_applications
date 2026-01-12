@@ -1,7 +1,7 @@
 {
-  "name": "teddy-open-finance",
+  "name": "lab-guilherme-chavenco",
   "version": "1.0.0",
-  "description": "Hello World - TEDDY OPEN FINANCE",
+  "description": "Hello World - Lab Guilherme Chavenco",
   "main": "src/server.js",
   "type": "commonjs",
   "scripts": {
